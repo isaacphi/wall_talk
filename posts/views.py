@@ -10,5 +10,13 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 def detail(request, post_id):
-    p = Post.objects.get(id=post_id)
-    return HttpResponse(p.text)
+    context = {
+        'post': Post.objects.get(id=post_id)
+    }
+    return render(request, 'posts/detail.html', context)
+
+def edit(request, post_id):
+    post = Post.objects.get(id=post_id)
+    post.text = request.POST['edit']
+    post.save()
+    return detail(request, post_id)

@@ -1,0 +1,9 @@
+<h1>{{ post.text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'posts:edit' post.id %}" method="post">
+{% csrf_token %}
+<input type="text" name="edit" value="{{ post.text }}" />
+<input type="submit" value="Edit" />
+</form>
