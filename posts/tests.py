@@ -7,6 +7,7 @@ import datetime
 # Create your tests here.
 class PostTest(TestCase):
 
+    # test models
     def test_was_written_recently_with_future_post(self):
         time = timezone.now() + datetime.timedelta(days=1)
         post = Post(text='', pub_date=time)
@@ -21,6 +22,12 @@ class PostTest(TestCase):
         time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
         post = Post(text='', pub_date=time)
         self.assertIs(post.was_written_recently(), True)
+
+    # test views
+    def test_no_posts(self):
+        response = self.client.get('/posts/')
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['posts'], [])
 
         
         
